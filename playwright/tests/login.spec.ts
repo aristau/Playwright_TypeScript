@@ -1,18 +1,22 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
+import { InventoryPage } from '../../pages/InventoryPage';
+import loginScenarios from '../fixtures/loginScenarios.json';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test.describe('Login tests', () => {
+  for (const scenario of loginScenarios) {
+    test(scenario.name, async ({ page }) => {
+      const loginPage = await LoginPage.build(page);
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
-
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+      if (scenario.shouldSucceed) {
+        await loginPage.loginSuccess(scenario.username, scenario.password);
+        await expect(page).toHaveURL(/inventory/);
+       
+      } else {
+        const failedLoginPage = await loginPage.loginFailure(scenario.username, scenario.password);
+        await expect(failedLoginPage.errorMessage).toBeVisible();
+        await expect(failedLoginPage.errorMessage).toHaveText(scenario.expectedError);
+      }
+    });
+  }
 });
