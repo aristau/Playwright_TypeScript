@@ -47,5 +47,17 @@
     "password": "secret_sauce",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Sorry, this user has been locked out."
+  },
+  {
+    "name": "Problem user",
+    "username": "problem_user",
+    "password": "secret_sauce",
+    "shouldSucceed": true
+  },
+  {
+    "name": "Performance glitch user",
+    "username": "performance_glitch_user",
+    "password": "secret_sauce",
+    "shouldSucceed": true
   }
 ]
