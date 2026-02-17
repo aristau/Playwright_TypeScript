@@ -21,10 +21,31 @@
     "expectedError": "Epic sadface: Username and password do not match any user in this service"
   },
   {
+    "name": "Empty username",
+    "username": "",
+    "password": "secret_sauce",
+    "shouldSucceed": false,
+    "expectedError": "Epic sadface: Username is required"
+  },
+  {
+    "name": "Empty password",
+    "username": "standard_use",
+    "password": "",
+    "shouldSucceed": false,
+    "expectedError": "Epic sadface: Password is required"
+  },
+  {
     "name": "Empty username and password",
     "username": "",
     "password": "",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Username is required"
+  },
+   {
+    "name": "Locked out user",
+    "username": "locked_out_user",
+    "password": "secret_sauce",
+    "shouldSucceed": false,
+    "expectedError": "Epic sadface: Sorry, this user has been locked out."
   }
 ]

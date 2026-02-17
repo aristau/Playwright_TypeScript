@@ -2,48 +2,50 @@ import { Page, Locator, expect } from '@playwright/test';
 import { InventoryPage } from './InventoryPage';
 
 export class LoginPage {
-  readonly page: Page;
-  readonly usernameInput: Locator;
-  readonly passwordInput: Locator;
-  readonly loginButton: Locator;
-  readonly errorMessage: Locator;
+  constructor(private readonly page: Page) {}
 
-  private constructor(page: Page) {
-    this.page = page;
-    this.usernameInput = page.locator('#user-name');
-    this.passwordInput = page.locator('#password');
-    this.loginButton = page.locator('#login-button');
-    this.errorMessage = page.locator('[data-test="error"]');
-  }
-
-  // Static factory method — returns a fully ready LoginPage
-  static async build(page: Page) {
+  // Factory method ensures page is loaded before use
+  static async build(page: Page): Promise<LoginPage> {
     const loginPage = new LoginPage(page);
-    await loginPage.page.goto('/'); // baseURL from playwright.config.ts
-    await loginPage.usernameInput.waitFor({ state: 'visible', timeout: 10000 }); //wait for username input to be visible
+    await page.goto('/');
+    await loginPage.usernameInput.waitFor();
     return loginPage;
   }
 
-  async login(username: string, password: string) {
+  // Locators (getter pattern)
+  get usernameInput(): Locator {
+    return this.page.locator('#user-name');
+  }
+
+  get passwordInput(): Locator {
+    return this.page.locator('#password');
+  }
+
+  get loginButton(): Locator {
+    return this.page.locator('#login-button');
+  }
+
+  get errorMessage(): Locator {
+    return this.page.locator('[data-test="error"]');
+  }
+
+  // Shared login action (DRY)
+  private async performLogin(username: string, password: string): Promise<void> {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.loginButton.click();
   }
 
-   // Success login → returns InventoryPage
-  async loginSuccess(username: string, password: string) {
-    await this.login(username, password);
+  // Successful login → returns InventoryPage
+  async loginSuccess(username: string, password: string): Promise<InventoryPage> {
+    await this.performLogin(username, password);
     return await InventoryPage.build(this.page);
   }
 
-  // Failure login → returns LoginPage itself
-  async loginFailure(username: string, password: string) {
-    await this.login(username, password);
-    await this.errorMessage.waitFor({ state: 'visible', timeout: 3000 });
+  // Failed login → stays on LoginPage
+  async loginFailure(username: string, password: string): Promise<LoginPage> {
+    await this.performLogin(username, password);
+    await expect(this.errorMessage).toBeVisible();
     return this;
-  }
-
-   async getErrorMessageText(): Promise<string> {
-    return await this.errorMessage.textContent() || '';
   }
 }

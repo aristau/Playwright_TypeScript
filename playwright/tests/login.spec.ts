@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/LoginPage';
+import { HeaderPage } from '../../pages/HeaderPage';
 import { InventoryPage } from '../../pages/InventoryPage';
 import loginScenarios from '../fixtures/loginScenarios.json';
 
@@ -19,4 +20,21 @@ test.describe('Login tests', () => {
       }
     });
   }
+
+  test('User can log out successfully', async ({ page }) => {
+    const loginPage = await LoginPage.build(page);
+
+    const inventoryPage = await loginPage.loginSuccess(
+      'standard_user',
+      'secret_sauce'
+    );
+
+    const headerPage = await HeaderPage.build(page);
+    const returnedLoginPage = await headerPage.logout();
+
+    await expect(returnedLoginPage.usernameInput).toBeVisible();
+  });
+
 });
+
+
