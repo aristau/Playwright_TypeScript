@@ -4,13 +4,6 @@ import { LoginPage } from './LoginPage';
 export class HeaderPage {
   constructor(private readonly page: Page) {}
 
-  // Factory method ensures page is loaded before use
-  static async build(page: Page): Promise<HeaderPage> {
-    const headerPage = new HeaderPage(page);
-    await headerPage.shoppingCartLink.waitFor();
-    return headerPage;
-  }
-
   // Locators (getter pattern)
   get menuBtn(): Locator {
     return this.page.locator('#react-burger-menu-btn');

@@ -21,7 +21,7 @@ export class InventoryPage {
     return this.page.locator('.inventory_item');
   }  
 
-  get header() {
+  get header(): HeaderPage {
     return new HeaderPage(this.page);
   }
 
