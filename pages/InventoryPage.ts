@@ -1,4 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { HeaderPage } from './HeaderPage';
+
 
 export class InventoryPage {
   constructor(private readonly page: Page) {}
@@ -18,6 +20,10 @@ export class InventoryPage {
   get inventoryItems(): Locator {
     return this.page.locator('.inventory_item');
   }  
+
+  get header() {
+    return new HeaderPage(this.page);
+  }
 
   async getItemCount(): Promise<number> {
     return await this.inventoryItems.count();

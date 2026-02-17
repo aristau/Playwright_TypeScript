@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/LoginPage';
-import { HeaderPage } from '../../pages/HeaderPage';
-import { InventoryPage } from '../../pages/InventoryPage';
 import loginScenarios from '../fixtures/loginScenarios.json';
 
 test.describe('Login tests', () => {
@@ -29,9 +27,7 @@ test.describe('Login tests', () => {
       'secret_sauce'
     );
 
-    const headerPage = await HeaderPage.build(page);
-    const returnedLoginPage = await headerPage.logout();
-
+    const returnedLoginPage = await inventoryPage.header.logout();
     await expect(returnedLoginPage.usernameInput).toBeVisible();
   });
 
