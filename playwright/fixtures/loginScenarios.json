@@ -52,12 +52,14 @@
     "name": "Problem user",
     "username": "problem_user",
     "password": "secret_sauce",
-    "shouldSucceed": true
+    "shouldSucceed": true,
+    "expectedError": ""
   },
   {
     "name": "Performance glitch user",
     "username": "performance_glitch_user",
     "password": "secret_sauce",
-    "shouldSucceed": true
+    "shouldSucceed": true,
+    "expectedError": ""
   }
 ]
