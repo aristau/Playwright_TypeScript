@@ -202,83 +202,67 @@ test.describe('Inventory', () => {
   // ============================================
   // Product detail navigation via title
   // ============================================
+  test('User can view product detail from title', async ({ standardUserPage }) => {
 
-  test('User can view product detail by clicking title', async ({ standardUserPage, page }) => {
+  const detailPage = await test.step(
+    'Click product title',
+    async () => {
+      return await standardUserPage.clickItemTitle(0);
+    }
+  );
 
-    await test.step('Click product title', async () => {
-      await standardUserPage.clickItemTitle(0);
-    });
+  await test.step(
+    'Verify product detail info',
+    async () => {
+      await detailPage.expectProductInfoVisible();
+    }
+  );
 
-    await test.step('Verify product detail page elements', async () => {
+  await test.step(
+    'Navigate back to inventory',
+    async () => {
+      const inventoryPage = await detailPage.goBackToInventory();
 
       await expect(
-        page.locator('.inventory_details_name')
+        inventoryPage.inventoryList
       ).toBeVisible();
+    }
+  );
 
-      await expect(
-        page.locator('.inventory_details_desc')
-      ).toBeVisible();
-
-      await expect(
-        page.locator('.inventory_details_price')
-      ).toBeVisible();
-
-      await expect(
-        page.locator('.inventory_details_img')
-      ).toBeVisible();
-
-    });
-
-    await test.step('Navigate back', async () => {
-
-      const inventoryPage = await standardUserPage.goBackToInventory();
-
-      await expect(inventoryPage.inventoryList)
-        .toBeVisible();
-
-    });
-
-  });
+});
 
   // ============================================
   // Product detail navigation via image
   // ============================================
 
-  test('User can view product detail by clicking image', async ({ standardUserPage, page }) => {
+  test('User can view product detail from image', async ({ standardUserPage }) => {
 
-    await test.step('Click product image', async () => {
-      await standardUserPage.clickItemImage(0);
-    });
+    const detailPage = await test.step(
+      'Click product image',
+      async () => {
+        return await standardUserPage.clickItemImage(0);
+      }
+    );
 
-    await test.step('Verify product detail page elements', async () => {
+    await test.step(
+      'Verify product detail info',
+      async () => {
+        await detailPage.expectProductInfoVisible();
+      }
+    );
 
-      await expect(
-        page.locator('.inventory_details_name')
-      ).toBeVisible();
+    await test.step(
+      'Navigate back to inventory',
+      async () => {
+        const inventoryPage = await detailPage.goBackToInventory();
 
-      await expect(
-        page.locator('.inventory_details_desc')
-      ).toBeVisible();
-
-      await expect(
-        page.locator('.inventory_details_price')
-      ).toBeVisible();
-
-      await expect(
-        page.locator('.inventory_details_img')
-      ).toBeVisible();
-
-    });
-
-    await test.step('Navigate back', async () => {
-
-      const inventoryPage = await standardUserPage.goBackToInventory();
-
-      await expect(inventoryPage.inventoryList)
-        .toBeVisible();
-
-    });
+        await expect(
+          inventoryPage.inventoryList
+        ).toBeVisible();
+      }
+    );
 
   });
+
 
 });

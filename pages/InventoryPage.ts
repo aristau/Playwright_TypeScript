@@ -1,5 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { HeaderPage } from './HeaderPage';
+import { ProductDetailPage } from './ProductDetailPage';
+
 
 export class InventoryPage {
 
@@ -198,15 +200,16 @@ export class InventoryPage {
   // PRODUCT NAVIGATION
   // ============================================
 
-  async clickItemTitle(index: number): Promise<void> {
+  async clickItemTitle(index: number): Promise<ProductDetailPage> {
 
     await this.getItemTitle(index).click();
-
+    return await ProductDetailPage.build(this.page);
   }
 
-  async clickItemImage(index: number): Promise<void> {
+  async clickItemImage(index: number): Promise<ProductDetailPage> {
 
     await this.getItemImage(index).click();
+    return await ProductDetailPage.build(this.page);
 
   }
 
