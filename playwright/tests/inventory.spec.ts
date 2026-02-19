@@ -1,5 +1,7 @@
 import { test, expect } from '../fixtures/authFixtures';
 import { InventoryPage } from '../../pages/InventoryPage';
+import { SortOption } from '../../pages/enums/SortOption';
+
 
 test.describe('Inventory', () => {
 
@@ -116,29 +118,18 @@ test.describe('Inventory', () => {
   // ============================================
 
   test('User can sort products by price (low to high)', async ({ standardUserPage }) => {
-
-    await test.step('Sort by low to high', async () => {
-      await standardUserPage.sortBy('Price (low to high)');
+    await test.step('Sort by low to high and verify order', async() => {
+      await standardUserPage.sortAndValidate(SortOption.PRICE_LOW_TO_HIGH);
     });
-
-    await test.step('Verify ascending order', async () => {
-      await standardUserPage.expectPricesAscending();
-    });
-
   });
 
   // ============================================
   // Sort price high to low
   // ============================================
 
-  test('User can sort products by price (high to low)', async ({ standardUserPage }) => {
-
-    await test.step('Sort by high to low', async () => {
-      await standardUserPage.sortBy('Price (high to low)');
-    });
-
-    await test.step('Verify descending order', async () => {
-      await standardUserPage.expectPricesDescending();
+   test('User can sort products by price (high to low)', async ({ standardUserPage }) => {
+    await test.step('Sort by high to low and verify order', async() => {
+      await standardUserPage.sortAndValidate(SortOption.PRICE_HIGH_TO_LOW);
     });
 
   });
@@ -148,13 +139,8 @@ test.describe('Inventory', () => {
   // ============================================
 
   test('User can sort products alphabetically (A to Z)', async ({ standardUserPage }) => {
-
-    await test.step('Sort A-Z', async () => {
-      await standardUserPage.sortBy('Name (A to Z)');
-    });
-
-    await test.step('Verify alphabetical order', async () => {
-      await standardUserPage.expectTitlesAscending();
+    await test.step('Sort A-Z and verify order', async() => {
+      await standardUserPage.sortAndValidate(SortOption.NAME_A_TO_Z);
     });
 
   });
@@ -163,17 +149,12 @@ test.describe('Inventory', () => {
   // Sort alphabetical Z-A
   // ============================================
 
-  test('User can sort products alphabetically (Z to A)', async ({ standardUserPage }) => {
-
-    await test.step('Sort Z-A', async () => {
-      await standardUserPage.sortBy('Name (Z to A)');
+   test('User can sort products alphabetically (Z to A)', async ({ standardUserPage }) => {
+    await test.step('Sort Z-A and verify order', async() => {
+      await standardUserPage.sortAndValidate(SortOption.NAME_Z_TO_A);
     });
 
-    await test.step('Verify reverse alphabetical order', async () => {
-      await standardUserPage.expectTitlesDescending();
-    });
-
-  });
+   });
 
   // ============================================
   // Cart retains items

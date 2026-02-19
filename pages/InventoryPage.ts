@@ -1,6 +1,8 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { HeaderPage } from './HeaderPage';
 import { ProductDetailPage } from './ProductDetailPage';
+import { SortOptionDefinition } from './enums/SortOption';
+
 
 
 export class InventoryPage {
@@ -131,12 +133,8 @@ export class InventoryPage {
   // Sorting
   // ============================================
 
-  async sortBy(option: string): Promise<void> {
-
-    await this.sortDropdown.selectOption({
-      label: option
-    });
-
+  async sortBy(optionValue: string) {
+    await this.sortDropdown.selectOption(optionValue);
   }
 
   async getAllPrices(): Promise<number[]> {
@@ -159,41 +157,33 @@ export class InventoryPage {
 
   }
 
-  async expectPricesAscending(): Promise<void> {
+  //Selects a sort option in the UI and confirms products are sorted accordingly.
+  async sortAndValidate<T>(option: SortOptionDefinition<T>): Promise<void> {
 
-    const prices = await this.getAllPrices();
+    await this.sortBy(option.value);
 
-    const sorted = [...prices].sort((a, b) => a - b);
+    const values: T[] =
+      option.type === 'price'
+        ? await this.getAllPrices() as T[]
+        : await this.getAllTitles() as T[];
 
-    expect(prices).toEqual(sorted);
-
+    await this.expectSorted(values, option.comparator);
   }
 
-   async expectPricesDescending(): Promise<void> {
 
-    const prices = await this.getAllPrices();
+ 
+    /*Sorts a copy of an array using a specified rule. 
+    Compares the original array to the sorted copy to 
+    verify the original is already sorted.*/
+    private async expectSorted<T>(
+    values: T[],
+    comparator: (a: T, b: T) => number
+  ): Promise<void> {
 
-    const sorted = [...prices].sort((a, b) => b - a);
+      const sorted = [...values].sort(comparator);
 
-    expect(prices).toEqual(sorted);
-  }
+      expect(values).toEqual(sorted);
 
-  async expectTitlesAscending(): Promise<void> {
-
-    const titles = await this.getAllTitles();
-
-    const sorted = [...titles].sort();
-
-    expect(titles).toEqual(sorted);
-  }
-
-  async expectTitlesDescending(): Promise<void> {
-
-    const titles = await this.getAllTitles();
-
-    const sorted = [...titles].sort().reverse();
-
-    expect(titles).toEqual(sorted);
   }
 
   // ============================================
