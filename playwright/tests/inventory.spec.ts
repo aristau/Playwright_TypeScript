@@ -180,70 +180,44 @@ test.describe('Inventory', () => {
 
   });
 
-  // ============================================
-  // Product detail navigation via title
-  // ============================================
-  test('User can view product detail from title', async ({ standardUserPage }) => {
+  // =============================================
+  // Product detail navigation via title / image
+  // =============================================
+  const productClickScenarios = [
+  {
+    name: 'from title',
+    clickFn: async (page: InventoryPage) => page.clickItemTitle(0),
+  },
+  {
+    name: 'from image',
+    clickFn: async (page: InventoryPage) => page.clickItemImage(0),
+  },
+];
 
-  const detailPage = await test.step(
-    'Click product title',
-    async () => {
-      return await standardUserPage.clickItemTitle(0);
-    }
-  );
+for (const scenario of productClickScenarios) {
 
-  await test.step(
-    'Verify product detail info',
-    async () => {
-      await detailPage.expectProductInfoVisible();
-    }
-  );
+    test(`User can view product detail ${scenario.name}`, async ({ standardUserPage, page }) => {
+    await testProductDetailNavigation(standardUserPage, scenario.clickFn);
+  });
+}
 
-  await test.step(
-    'Navigate back to inventory',
-    async () => {
-      const inventoryPage = await detailPage.goBackToInventory();
-
-      await expect(
-        inventoryPage.inventoryList
-      ).toBeVisible();
-    }
-  );
-
-});
-
-  // ============================================
-  // Product detail navigation via image
-  // ============================================
-
-  test('User can view product detail from image', async ({ standardUserPage }) => {
-
-    const detailPage = await test.step(
-      'Click product image',
-      async () => {
-        return await standardUserPage.clickItemImage(0);
-      }
-    );
-
-    await test.step(
-      'Verify product detail info',
-      async () => {
-        await detailPage.expectProductInfoVisible();
-      }
-    );
-
-    await test.step(
-      'Navigate back to inventory',
-      async () => {
-        const inventoryPage = await detailPage.goBackToInventory();
-
-        await expect(
-          inventoryPage.inventoryList
-        ).toBeVisible();
-      }
-    );
-
+//Helper function to open a product and confirm its details
+ async function testProductDetailNavigation(
+  inventoryPage: InventoryPage,
+  clickFn: (page: InventoryPage) => Promise<any>
+) {
+  const detailPage = await test.step('Click product', async () => {
+    return await clickFn(inventoryPage);
   });
 
+  await test.step('Verify product detail info', async () => {
+    await detailPage.expectProductInfoVisible();
+  });
+
+  await test.step('Navigate back to inventory', async () => {
+    const returnedInventoryPage = await detailPage.goBackToInventory();
+    await expect(returnedInventoryPage.inventoryList).toBeVisible();
+  });
+}
 
 });
