@@ -1,5 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { CartPage } from './CartPage';
+import { CheckoutOverviewPage } from './CheckoutOverviewPage';
 
 export class CheckoutInformationPage {
 
@@ -26,7 +27,7 @@ export class CheckoutInformationPage {
   }
 
   get cancelButton(): Locator {
-    return this.page.locator('[data-test="cancel"');
+    return this.page.locator('[data-test="cancel"]');
   }
 
   get errorMessage(): Locator {
@@ -45,6 +46,13 @@ export class CheckoutInformationPage {
     await expect(this.checkoutForm).toBeVisible();
   }
 
+  async expectCheckoutFormFieldsVisible(): Promise<void> {
+    await expect(this.firstNameInput).toBeVisible();
+    await expect(this.lastNameInput).toBeVisible();
+    await expect(this.postalCodeInput).toBeVisible();
+    await expect(this.continueButton).toBeVisible();
+  }
+
   async expectErrorVisible(message?: string): Promise<void> {
     await expect(this.errorMessage).toBeVisible();
 
@@ -57,7 +65,7 @@ export class CheckoutInformationPage {
   // Actions
   // ============================
 
-  async fillCheckoutInformation(
+  async fillCheckoutForm(
     firstName: string,
     lastName: string,
     postalCode: string
@@ -69,15 +77,15 @@ export class CheckoutInformationPage {
 
   }
 
-  // async continueToOverview(): Promise<CheckoutOverviewPage> {
+  async continueToOverview(): Promise<CheckoutOverviewPage> {
 
-  //   await this.continueButton.click();
+    await this.continueButton.click();
 
-  //   return new CheckoutOverviewPage(this.page);
+    return new CheckoutOverviewPage(this.page);
 
-  // }
+  }
 
-  async cancel(): Promise<CartPage> {
+  async clickCancel(): Promise<CartPage> {
 
     await this.cancelButton.click();
 
@@ -85,24 +93,20 @@ export class CheckoutInformationPage {
 
   }
 
-  // ============================
-  // High-level workflow method
-  // ============================
+  async completeCheckoutInformation(
+    firstName: string,
+    lastName: string,
+    postalCode: string
+  ): Promise<CheckoutOverviewPage> {
 
-  // async completeCheckoutInformation(
-  //   firstName: string,
-  //   lastName: string,
-  //   postalCode: string
-  // ): Promise<CheckoutOverviewPage> {
+    await this.fillCheckoutForm(
+      firstName,
+      lastName,
+      postalCode
+    );
 
-  //   await this.fillCheckoutInformation(
-  //     firstName,
-  //     lastName,
-  //     postalCode
-  //   );
+    return await this.continueToOverview();
 
-  //   return await this.continueToOverview();
-
-  // }
+  }
 
 }
