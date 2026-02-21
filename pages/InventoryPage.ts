@@ -1,6 +1,7 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { HeaderPage } from './HeaderPage';
 import { ProductDetailPage } from './ProductDetailPage';
+import { CartPage } from './CartPage';
 import { SortOptionDefinition } from './enums/SortOption';
 
 
@@ -127,6 +128,11 @@ export class InventoryPage {
 
     }
 
+  }
+
+  async goToCart(): Promise<CartPage> {
+    await this.header.shoppingCartLink.click()
+    return new CartPage(this.page)
   }
 
   // ============================================
