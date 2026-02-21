@@ -3,12 +3,13 @@ import { InventoryPage } from '../../pages/InventoryPage'
 import { CartPage } from '../../pages/CartPage'
 import { CheckoutInformationPage } from '../../pages/CheckoutInformationPage'
 import { CheckoutOverviewPage } from '../../pages/CheckoutOverviewPage'
+import checkoutData from '../fixtures/checkoutData.json'
 
 // Data for negative checkout scenarios
-const checkoutInvalidData = [
-  { fixtureKey: 'missingFirstName', errorMessage: 'Error: First Name is required' },
-  { fixtureKey: 'missingLastName', errorMessage: 'Error: Last Name is required' },
-  { fixtureKey: 'missingPostalCode', errorMessage: 'Error: Postal Code is required' },
+const invalidKeys: (keyof typeof checkoutData)[] = [
+  'missingFirstName',
+  'missingLastName',
+  'missingPostalCode'
 ]
 
 test.describe('Checkout', () => {
@@ -39,7 +40,7 @@ test.describe('Checkout', () => {
     const checkoutInfoPage = await addSingleItemAndGoToCheckout(inventoryPage)
 
     await test.step('Fill in valid checkout information', async () => {
-      await checkoutInfoPage.fillCheckoutForm('John', 'Doe', '12345');
+      await checkoutInfoPage.fillCheckoutForm(checkoutData["validUser"]);
     })
 
     const overviewPage: CheckoutOverviewPage = await test.step('Continue to checkout overview', async () => {
@@ -51,28 +52,32 @@ test.describe('Checkout', () => {
     })
   })
 
-//   test.describe('Checkout requires all required fields', () => {
-//     for (const data of checkoutInvalidData) {
-//       test(`Displays error when ${data.fixtureKey} is missing`, async ({ standardUserPage }) => {
-//         const inventoryPage: InventoryPage = standardUserPage
-//         const checkoutInfoPage = await addSingleItemAndGoToCheckout(inventoryPage)
+  test.describe('Checkout requires all required fields', () => {
+    for (const key of invalidKeys) {
+    const errorMessageMap: Record<string, string> = {
+        missingFirstName: 'Error: First Name is required',
+        missingLastName: 'Error: Last Name is required',
+        missingPostalCode: 'Error: Postal Code is required'
+    }
 
-//         await test.step(`Fill checkout form with ${data.fixtureKey}`, async () => {
-//           const formData: Record<string,string> = { firstName: 'Anna', lastName: 'Ristau', postalCode: '12345' }
-//           delete formData[data.fixtureKey.replace('missing', '').toLowerCase()]
-//           await checkoutInfoPage.fillCheckoutForm(formData)
-//         })
+    test(`Displays error when ${key}`, async ({ standardUserPage }) => {
+        const inventoryPage = standardUserPage
+        const checkoutInfoPage = await addSingleItemAndGoToCheckout(inventoryPage);
 
-//         await test.step('Attempt to continue checkout', async () => {
-//           await checkoutInfoPage.continueToOverview();
-//         })
+        await test.step('Fill in invalid checkout information', async () => {
+            await checkoutInfoPage.fillCheckoutForm(checkoutData[key]);
+        })
 
-//         await test.step('Verify correct error message', async () => {
-//           await checkoutInfoPage.expectErrorVisible(data.errorMessage)
-//         })
-//       })
-//     }
-//   })
+        await test.step('Attempt to continue checkout', async () => {
+        await checkoutInfoPage.continueToOverview();
+        })
+
+        await test.step('Verify error message', async () => {
+        await checkoutInfoPage.expectErrorVisible(errorMessageMap[key])
+        })
+    })
+    }
+  })
 
   test('User can cancel checkout', async ({ standardUserPage }) => {
     const inventoryPage: InventoryPage = standardUserPage
@@ -163,7 +168,7 @@ async function addSingleItemAndGoToCheckout(inventoryPage: InventoryPage): Promi
 
 async function addSingleItemAndGoToOverview(inventoryPage: InventoryPage): Promise<CheckoutOverviewPage> {
   const checkoutInfoPage = await addSingleItemAndGoToCheckout(inventoryPage)
-  await checkoutInfoPage.fillCheckoutForm('John', 'Doe', '12345')
+  await checkoutInfoPage.fillCheckoutForm(checkoutData["validUser"])
   return await checkoutInfoPage.continueToOverview();
 }
 
@@ -171,6 +176,6 @@ async function addMultipleItemsAndGoToOverview(inventoryPage: InventoryPage, ind
   for (const i of indices) await inventoryPage.addItemToCart(i)
   const cartPage = await inventoryPage.goToCart()
   const checkoutInfoPage = await cartPage.clickCheckout()
-  await checkoutInfoPage.fillCheckoutForm('John', 'Doe', '12345')
+  await checkoutInfoPage.fillCheckoutForm(checkoutData["validUser"])
   return await checkoutInfoPage.continueToOverview();
 }

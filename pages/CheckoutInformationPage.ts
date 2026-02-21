@@ -65,16 +65,20 @@ export class CheckoutInformationPage {
   // Actions
   // ============================
 
-  async fillCheckoutForm(
-    firstName: string,
-    lastName: string,
-    postalCode: string
-  ): Promise<void> {
-
-    await this.firstNameInput.fill(firstName);
-    await this.lastNameInput.fill(lastName);
-    await this.postalCodeInput.fill(postalCode);
-
+  async fillCheckoutForm(data: {
+    firstName?: string
+    lastName?: string
+    postalCode?: string
+  }): Promise<void> {
+    if (data.firstName !== undefined) {
+      await this.firstNameInput.fill(data.firstName)
+    }
+    if (data.lastName !== undefined) {
+      await this.lastNameInput.fill(data.lastName)
+    }
+    if (data.postalCode !== undefined) {
+      await this.postalCodeInput.fill(data.postalCode)
+    }
   }
 
   async continueToOverview(): Promise<CheckoutOverviewPage> {
@@ -92,21 +96,4 @@ export class CheckoutInformationPage {
     return new CartPage(this.page);
 
   }
-
-  async completeCheckoutInformation(
-    firstName: string,
-    lastName: string,
-    postalCode: string
-  ): Promise<CheckoutOverviewPage> {
-
-    await this.fillCheckoutForm(
-      firstName,
-      lastName,
-      postalCode
-    );
-
-    return await this.continueToOverview();
-
-  }
-
 }
