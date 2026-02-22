@@ -6,6 +6,21 @@ export class CheckoutInformationPage {
 
   constructor(private page: Page) {}
 
+  // --------------------------------
+  // Static build method
+  // --------------------------------
+
+  static async build(page: Page): Promise<CheckoutInformationPage> {
+
+    const checkoutInfoPage = new CheckoutInformationPage(page);
+
+    await checkoutInfoPage.checkoutForm.waitFor({
+      state: 'visible'
+    });
+
+    return checkoutInfoPage;
+  }
+
   // ============================
   // Locators (getter pattern)
   // ============================

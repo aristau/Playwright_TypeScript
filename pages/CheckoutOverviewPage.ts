@@ -1,4 +1,6 @@
 import { expect, Page, Locator } from '@playwright/test';
+import { CheckoutInformationPage } from './CheckoutInformationPage';
+
 
 export class CheckoutOverviewPage {
   readonly page: Page;
@@ -6,6 +8,7 @@ export class CheckoutOverviewPage {
   constructor(page: Page) {
     this.page = page;
   }
+
 
   // ---------------------------
   // Locators using getter pattern
@@ -103,4 +106,30 @@ export class CheckoutOverviewPage {
     await expect(await this.getDisplayedTax()).toBe(tax);
     await expect(await this.getDisplayedTotal()).toBe(total);
   }
+
+  async expectEachProductHasTitlePriceQuantity() {
+    const count = await this.products.count();
+
+    for (let i = 0; i < count; i++) {
+      const item = this.products.nth(i);
+
+      await expect(item.locator('[data-test="inventory-item-name"]')).toBeVisible();
+      await expect(item.locator('[data-test="inventory-item-price"]')).toBeVisible();
+      await expect(item.locator('[data-test="item-quantity"]')).toBeVisible();
+    }
+  }
+
+  // ---------------------------
+  // Navigations
+  // ---------------------------
+
+   async goBackToCheckoutInformation(): Promise<CheckoutInformationPage> {
+
+    await this.page.goBack();
+
+    return await CheckoutInformationPage.build(this.page);
+
+  }
+
+
 }

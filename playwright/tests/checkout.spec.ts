@@ -92,29 +92,29 @@ test.describe('Checkout', () => {
     })
   })
 
-//   test('User can navigate back from checkout overview', async ({ standardUserPage }) => {
-//     const overviewPage = await addSingleItemAndGoToOverview(standardUserPage)
+  test('User can navigate back from checkout overview', async ({ standardUserPage }) => {
+    const overviewPage = await addSingleItemAndGoToOverview(standardUserPage)
 
-//     const checkoutInfoPage: CheckoutInformationPage = await test.step('Navigate back from overview', async () => {
-//       return await overviewPage.goBackToCheckoutInformation()
-//     })
+    const checkoutInfoPage: CheckoutInformationPage = await test.step('Navigate back from overview', async () => {
+      return await overviewPage.goBackToCheckoutInformation()
+    })
 
-//     await test.step('Verify on checkout information page', async () => {
-//       await checkoutInfoPage.expectCheckoutFormVisible();
-//     })
-//   })
+    await test.step('Verify on checkout information page', async () => {
+      await checkoutInfoPage.expectCheckoutFormVisible();
+    })
+  })
 
-//   test('Checkout overview displays selected products', async ({ standardUserPage }) => {
-//     const overviewPage = await addMultipleItemsAndGoToOverview(standardUserPage, [0,1])
+  test('Checkout overview displays selected products', async ({ standardUserPage }) => {
+    const overviewPage = await addMultipleItemsAndGoToOverview(standardUserPage, [0,1])
 
-//     await test.step('Verify product count', async () => {
-//       expect(await overviewPage.products.count()).toBe(2)
-//     })
+    await test.step('Verify product count', async () => {
+      expect(await overviewPage.products.count()).toBe(2)
+    })
 
-//     await test.step('Verify each product shows title, price, quantity', async () => {
-//       await overviewPage.expectEachProductHasTitlePriceQuantity()
-//     })
-//   })
+    await test.step('Verify each product shows title, price, quantity', async () => {
+      await overviewPage.expectEachProductHasTitlePriceQuantity()
+    })
+  })
 
   test('Checkout overview shows correct totals', async ({ standardUserPage }) => {
     const overviewPage = await addMultipleItemsAndGoToOverview(standardUserPage, [0,1])
