@@ -63,10 +63,6 @@ npx playwright show-report reports/playwright-report
 
 ---
 
-## 📈 Continuous Integration
-
-
----
 
 
 
