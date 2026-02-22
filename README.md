@@ -32,21 +32,21 @@ This project automates the **SauceDemo e-commerce site** ([https://www.saucedemo
 ```
 npm install
 ```
-**Run All Tests:**
+**Run All Tests (Chromium, Firefox, Webkit):**
 ```
 npx playwright test
 ```
-**Run A Specific Test File:**
+**Run A Specific Test File (Chromium, Firefox, Webkit):**
 ```
-npx playwright test tests/specs/checkout.spec.ts
+npx playwright test tests/checkout.spec.ts
 ```
-**Run Tests in Headed (GUI) mode:**
+**Run Tests in Headed (GUI) mode (Chromium):**
 ```
 npx playwright test --ui
 ```
 **View HTML Report:**
 ```
-npx playwright show-report
+npx playwright show-report reports/playwright-report
 ```
 
 ---
