@@ -1,5 +1,8 @@
 import { expect, Page, Locator } from '@playwright/test';
 import { CheckoutInformationPage } from './CheckoutInformationPage';
+import { CheckoutCompletePage } from './CheckoutCompletePage'
+import { InventoryPage } from './InventoryPage';
+
 
 
 export class CheckoutOverviewPage {
@@ -48,13 +51,18 @@ export class CheckoutOverviewPage {
   // ---------------------------
   // Actions
   // ---------------------------
-  async clickFinishBtn() {
-    await this.finishBtn.click();
-  }
+  async clickFinishBtn(): Promise<CheckoutCompletePage> {
+    await this.finishBtn.click()
+    return new CheckoutCompletePage(this.page)
+}
 
-  async clickCancelBtn() {
-    await this.cancelBtn.click();
-  }
+ async clickCancelBtn(): Promise<InventoryPage> {
+ 
+     await this.cancelBtn.click();
+ 
+     return new InventoryPage(this.page);
+ 
+   }
 
   // ---------------------------
   // Get product prices as numbers

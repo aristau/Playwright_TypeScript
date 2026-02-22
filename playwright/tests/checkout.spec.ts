@@ -3,6 +3,7 @@ import { InventoryPage } from '../../pages/InventoryPage'
 import { CartPage } from '../../pages/CartPage'
 import { CheckoutInformationPage } from '../../pages/CheckoutInformationPage'
 import { CheckoutOverviewPage } from '../../pages/CheckoutOverviewPage'
+import { CheckoutCompletePage } from '../../pages/CheckoutCompletePage'
 import checkoutData from '../fixtures/checkoutData.json'
 
 // Data for negative checkout scenarios
@@ -126,30 +127,30 @@ test.describe('Checkout', () => {
 
   test('User can complete checkout', async ({ standardUserPage }) => {
     const overviewPage = await addSingleItemAndGoToOverview(standardUserPage)
-
-    await test.step('Finish checkout', async () => {
-      await overviewPage.clickFinishBtn()
+    
+    const confirmationPage = await test.step('Finish checkout', async () => {
+      return await overviewPage.clickFinishBtn()
     })
-
+    
     await test.step('Verify success confirmation', async () => {
-      await expect(overviewPage.page.locator('.complete-header')).toHaveText('Thank you for your order!')
+          await confirmationPage.expectPageLoaded()
     })
   })
 
   test('User can return to inventory after checkout', async ({ standardUserPage }) => {
     const overviewPage = await addSingleItemAndGoToOverview(standardUserPage)
 
-    await test.step('Finish checkout', async () => {
-      await overviewPage.clickFinishBtn()
+    const confirmationPage = await test.step('Finish checkout', async () => {
+      return await overviewPage.clickFinishBtn()
     })
 
-    const inventoryPage: InventoryPage = await test.step('Navigate back to inventory', async () => {
-      await overviewPage.page.locator('[data-test="back-to-products"]').click()
-      return new InventoryPage(overviewPage.page)
+    const inventoryPage = await test.step('Navigate back to inventory', async () => {
+      return await confirmationPage.clickBackHome()
     })
 
     await test.step('Verify inventory page is visible and cart empty', async () => {
       await expect(inventoryPage.inventoryList).toBeVisible()
+
       const cartPage = await inventoryPage.goToCart()
       await cartPage.expectItemCount(0)
     })
