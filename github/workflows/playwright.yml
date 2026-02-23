@@ -1,0 +1,69 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    steps:
+      # 1️⃣ Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4️⃣ TypeScript type check
+      - name: Type check
+        run: npm run check:types
+
+      # 5️⃣ Install Playwright browsers & dependencies
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # 6️⃣ Run all Playwright tests
+      - name: Run Playwright Tests
+        run: |
+          npx playwright test \
+            --project ${{ matrix.browser }} \
+            --reporter=html \
+            --workers=auto \
+            --timeout=30000 \
+            --retries=1
+
+      # 7️⃣ Upload HTML report
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report
+          path: reports/playwright-report
+
+      # # 8️⃣ Upload videos/screenshots of failed tests
+      # - name: Upload Playwright Videos
+      #   if: failure()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: playwright-videos
+      #     path: playwright-report/videos
+
+      # - name: Upload Playwright Screenshots
+      #   if: failure()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: playwright-screenshots
+      #     path: playwright-report/screenshots
