@@ -14,29 +14,29 @@ jobs:
         browser: [chromium, firefox, webkit]
 
     steps:
-      # 1️⃣ Checkout code
+      # Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      # 3️⃣ Install dependencies
+      # Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ TypeScript type check
+      # TypeScript type check
       - name: Type check
         run: npm run check:types
 
-      # 5️⃣ Install Playwright browsers & dependencies
+      # Install Playwright browsers & dependencies
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # 6️⃣ Run all Playwright tests
+      # Run all Playwright tests
       - name: Run Playwright Tests
         run: |
           npx playwright test \
@@ -45,7 +45,11 @@ jobs:
             --timeout=30000 \
             --retries=1
 
-      # 7️⃣ Upload HTML report
+      # Generate test report
+      - name: Generate report
+        run: npm run report  
+
+      # Upload test report as an artifact
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
         with:
