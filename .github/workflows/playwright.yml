@@ -52,7 +52,7 @@ jobs:
           path: reports/playwright-report
       - run: ls -la reports/playwright-report || echo "Folder not found"
 
-    deploy:
+  deploy:
     needs: test
     runs-on: ubuntu-latest
     permissions:
