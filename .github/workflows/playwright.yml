@@ -52,17 +52,30 @@ jobs:
           path: reports/playwright-report
       - run: ls -la reports/playwright-report || echo "Folder not found"
 
-      # # 8️⃣ Upload videos/screenshots of failed tests
-      # - name: Upload Playwright Videos
-      #   if: failure()
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: playwright-videos
-      #     path: playwright-report/videos
+    deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
 
-      # - name: Upload Playwright Screenshots
-      #   if: failure()
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: playwright-screenshots
-      #     path: playwright-report/screenshots
+    steps:
+      - name: Download Chromium report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-chromium
+          path: reports/playwright-report
+
+      - name: Download Firefox report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-firefox
+          path: reports/playwright-report
+
+      - name: Download Webkit report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-webkit
+          path: reports/playwright-report
+
+  
