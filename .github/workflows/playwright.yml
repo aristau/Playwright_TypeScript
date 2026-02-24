@@ -45,72 +45,72 @@ jobs:
           path: reports/playwright-report
       - run: ls -la reports/playwright-report || echo "Folder not found"
 
-  # deploy:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     pages: write
-  #     id-token: write
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
 
-  #   steps:
-  #     - name: Download Chromium report
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: playwright-report-chromium
-  #         path: reports/playwright-report
+    steps:
+      - name: Download Chromium report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-chromium
+          path: reports/playwright-report
 
-  #     - name: Download Firefox report
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: playwright-report-firefox
-  #         path: reports/playwright-report
+      - name: Download Firefox report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-firefox
+          path: reports/playwright-report
 
-  #     - name: Download Webkit report
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: playwright-report-webkit
-  #         path: reports/playwright-report
+      - name: Download Webkit report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-webkit
+          path: reports/playwright-report
 
-  #     - name: Create index.html
-  #       run: |
-  #         cat <<EOF > site/index.html
-  #         <!DOCTYPE html>
-  #         <html>
-  #         <head>
-  #           <title>Playwright Test Reports</title>
-  #           <style>
-  #             body { font-family: Arial; text-align: center; padding: 40px; }
-  #             h1 { margin-bottom: 30px; }
-  #             a {
-  #               display: inline-block;
-  #               margin: 15px;
-  #               padding: 15px 25px;
-  #               font-size: 18px;
-  #               text-decoration: none;
-  #               background: #24292f;
-  #               color: white;
-  #               border-radius: 6px;
-  #             }
-  #             a:hover { background: #444; }
-  #           </style>
-  #         </head>
-  #         <body>
-  #           <h1>Playwright Test Reports</h1>
-  #           <a href="./chromium/index.html">Chromium Report</a>
-  #           <a href="./firefox/index.html">Firefox Report</a>
-  #           <a href="./webkit/index.html">WebKit Report</a>
-  #         </body>
-  #         </html>
-  #         EOF
-  #     - name: Setup Pages
-  #       uses: actions/configure-pages@v4
+      - name: Create index.html
+        run: |
+          cat <<EOF > site/index.html
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Playwright Test Reports</title>
+            <style>
+              body { font-family: Arial; text-align: center; padding: 40px; }
+              h1 { margin-bottom: 30px; }
+              a {
+                display: inline-block;
+                margin: 15px;
+                padding: 15px 25px;
+                font-size: 18px;
+                text-decoration: none;
+                background: #24292f;
+                color: white;
+                border-radius: 6px;
+              }
+              a:hover { background: #444; }
+            </style>
+          </head>
+          <body>
+            <h1>Playwright Test Reports</h1>
+            <a href="./chromium/index.html">Chromium Report</a>
+            <a href="./firefox/index.html">Firefox Report</a>
+            <a href="./webkit/index.html">WebKit Report</a>
+          </body>
+          </html>
+          EOF
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
-  #     - name: Upload Pages Artifact
-  #       uses: actions/upload-pages-artifact@v3
-  #       with:
-  #         path: reports/playwright-report
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: reports/playwright-report
 
-  #     - name: Deploy to GitHub Pages
-  #       uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
 
   
