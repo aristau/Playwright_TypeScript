@@ -57,19 +57,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-chromium
-          path: reports/playwright-report
+          path: site/chromium
 
       - name: Download Firefox report
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-firefox
-          path: reports/playwright-report
+          path: site/firefox
 
       - name: Download Webkit report
         uses: actions/download-artifact@v4
         with:
           name: playwright-report-webkit
-          path: reports/playwright-report
+          path: site/webkit
 
       - name: Create index.html
         run: |
@@ -108,7 +108,7 @@ jobs:
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: reports/playwright-report
+          path: site
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
