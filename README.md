@@ -1,3 +1,6 @@
+[![Playwright Tests](https://github.com/aristau/Playwright_TypeScript/actions/workflows/playwright.yml/badge.svg)](https://github.com/aristau/Playwright_TypeScript/actions)
+[![Live Reports](https://img.shields.io/badge/Live%20Reports-View%20Reports-blue)](https://aristau.github.io/Playwright_TypeScript/)
+
 # Playwright_TypeScript
 > Professional Playwright automation framework demonstrating the Page Object Model (POM) and maintainable automation practices.
 
@@ -23,7 +26,8 @@ This project automates the **SauceDemo e-commerce site** ([https://www.saucedemo
 - TypeScript
 - Reusable helper functions  
 - Fixture files
-- test.step 
+- CI/CD integration with Docker Image & GitHub Actions/Pages
+- Detailed test reporting with test.step 
 
 ---
 
@@ -34,19 +38,29 @@ npm install
 ```
 **Run All Tests (Chromium, Firefox, Webkit):**
 ```
-npx playwright test
+npm run test
 ```
 **Run A Specific Test File (Chromium, Firefox, Webkit):**
 ```
-npx playwright test tests/checkout.spec.ts
+npm run test tests/checkout.spec.ts
 ```
-**Run Tests in Headed (GUI) mode (Chromium):**
+**Run Tests in a Specific Browser:**
 ```
-npx playwright test --ui
+npm run test:chromium
 ```
-**View HTML Report:**
 ```
-npx playwright show-report reports/playwright-report
+npm run test:firefox
+```
+```
+npm run test:webkit
+```
+**Run Tests in UI mode (Chromium):**
+```
+npm run test:ui
+```
+**View HTML Test Report:**
+```
+npm run report
 ```
 
 ---
@@ -60,6 +74,19 @@ npx playwright show-report reports/playwright-report
 **Cart:** Cart content, remove items, continue shopping, checkout navigation
 
 **Checkout:** Required fields, overview validation, totals, taxes, checkout confirmation  
+
+---
+
+## 📈 Continuous Integration
+
+**Automated Test Runs:** The pipeline executes all tests on every main branch push in 3 browsers (Chromium, Firefox, and Webkit).
+Then, the pipeline generates reports of the test results (1 report per browser), and publishes the reports to GitHub Pages.
+
+**Success Artifacts:** Test result report artifacts uploaded **on every run.**
+
+**CI Badge (At top of Readme):** Provides clear visibility into test results.
+
+**Report Badge (At top of Readme):** Shows live reports of test results on GitHub Pages.
 
 ---
 
