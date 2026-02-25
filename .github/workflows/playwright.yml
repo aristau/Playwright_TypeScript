@@ -43,7 +43,6 @@ jobs:
         with:
           name: playwright-report-${{matrix.browser}}
           path: reports/playwright-report
-      - run: ls -la reports/playwright-report || echo "Folder not found"
 
   deploy:
     needs: test
@@ -53,9 +52,11 @@ jobs:
       id-token: write
 
     steps:
+      # Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      #Download reports
       - name: Download Chromium report
         uses: actions/download-artifact@v4
         with:
@@ -74,14 +75,11 @@ jobs:
           name: playwright-report-webkit
           path: site/webkit
 
-      #Debug step
-      - name: Debug folder structure
-        run: ls -R
-
       # Copy static index.html for GitHub Pages
       - name: Copy index page
         run: cp gh-pages/index.html site/index.html
 
+      # Write to GitHub Pages using index.html and downloaded reports
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
