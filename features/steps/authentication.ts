@@ -23,7 +23,8 @@ Given('a user lands on the website', async function () {
  });
 
 When('user logs in with valid credentials', async function () {
-    loginPage.performLogin("standard_user", "secret_sauce");
+    loginPage.performLogin(process.env.STANDARD_USERNAME!, process.env.STANDARD_PASSWORD!);
+    //loginPage.performLogin("standard_user", "secret_sauce");
     //loginPage.performLogin(loginScenarios.find()
     //authFixtures.getUser("test")
 });

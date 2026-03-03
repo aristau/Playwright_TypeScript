@@ -1,5 +1,8 @@
 import { setWorldConstructor, World as CucumberWorld } from '@cucumber/cucumber';
 import { Browser, Page, chromium } from 'playwright';
+import * as dotenv from 'dotenv';
+
+dotenv.config(); //Load dotenv file so that tests can use environment variables defined there
 
 export class CustomWorld extends CucumberWorld {
   browser!: Browser;
