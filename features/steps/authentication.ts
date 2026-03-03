@@ -3,43 +3,37 @@ import { chromium, Browser, Page } from 'playwright';
 import { expect } from '@playwright/test';
 import { LoginPage } from '../../pages/LoginPage';
 import { InventoryPage } from '../../pages/InventoryPage';
+import { CustomWorld } from '../support/world';
 //import loginScenarios from '../../playwright/fixtures/loginScenarios.json';
 //import authFixtures from '../../playwright/fixtures/authFixtures.ts';
 
-
-let browser: Browser;
-let page: Page;
 let loginPage: LoginPage;
 let inventoryPage: InventoryPage; 
 
-Before(async () => {
-  if(!browser) {
-    browser = await chromium.launch({ headless: false, slowMo: 900 }); // UI mode
-    page = await browser.newPage();
-  }
-
+Before(async function () {
+  await this.openBrowser();
 });
 
-// AfterAll(async () => {
-//   await browser.close();
-// });
-
-Given('a user lands on the website', async () => {
-    loginPage = await LoginPage.build(page);
+After(async function() {
+  await this.closeBrowser();
 });
 
-When('user logs in with valid credentials', async () => {
+Given('a user lands on the website', async function () {
+    loginPage = await LoginPage.build(this.page);
+ });
+
+When('user logs in with valid credentials', async function () {
     loginPage.performLogin("standard_user", "secret_sauce");
     //loginPage.performLogin(loginScenarios.find()
     //authFixtures.getUser("test")
 });
 
-Then('user lands on the products page', async () => {
-    inventoryPage = await InventoryPage.build(page);
-    await expect(page).toHaveURL(/inventory/);
+Then('user lands on the products page', async function () {
+    inventoryPage = await InventoryPage.build(this.page);
+    await expect(this.page).toHaveURL(/inventory/);
 });
 
-Then('user sees the products list', async () => {
+Then('user sees the products list', async function () {
    await expect (inventoryPage.inventoryList).toBeVisible();
 
 });
