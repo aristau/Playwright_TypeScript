@@ -31,6 +31,10 @@ export class LoginPage {
     return this.page.locator('[data-test="error"]');
   }
 
+  async getPageTitle(): Promise<string> {
+    return await this.page.title();
+  }
+
   // Shared login action (DRY)
   public async performLogin(username: string, password: string): Promise<void> {
     await this.usernameInput.fill(username);
