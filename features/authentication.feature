@@ -1,7 +1,7 @@
 Feature: Authentication
 
-Background:
-    Given a user lands on the website
+# Background:
+#     Given a user lands on the website
 
 Scenario: Login page Shows Correct Title
     Then login page shows the correct title
@@ -27,7 +27,7 @@ Scenario Outline: A user attempts login with invalid credentials
     | STANDARD_USERNAME  | EMPTY_PASSWORD       | Epic sadface: Password is required                                          |
     | EMPTY_USERNAME     | EMPTY_PASSWORD       | Epic sadface: Username is required                                          |
 
-# Scenario: A user logs out
-#     Given user is logged in with valid credentials
-#     When user logs out
-#     Then user is redirected to the login page
+Scenario: A user logs out
+    Given user is logged in with valid credentials
+    When user logs out
+    Then user is redirected to the login page

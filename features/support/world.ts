@@ -11,6 +11,7 @@ export class CustomWorld extends CucumberWorld {
 
   context!: BrowserContext;
   page!: Page;
+  loginPage!: LoginPage;
   inventoryPage?: InventoryPage;
 
   static async launchBrowser() {
@@ -39,10 +40,18 @@ export class CustomWorld extends CucumberWorld {
   // -------------------
   // Login helpers
   // -------------------
+  async openLoginPage() {
+    this.loginPage = await LoginPage.build(this.page);
+  }
 
   private async login(username: string, password: string): Promise<void> {
-    const loginPage = await LoginPage.build(this.page);
-    this.inventoryPage = await loginPage.loginSuccess(username, password);
+    if (!this.loginPage) {
+      this.loginPage = await LoginPage.build(this.page);
+    }
+
+    this.inventoryPage = await this.loginPage.loginSuccess(username, password);
+    // const loginPage = await LoginPage.build(this.page);
+    // this.inventoryPage = await loginPage.loginSuccess(username, password);
   }
 
   // Multi-user helpers
