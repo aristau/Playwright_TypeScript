@@ -50,8 +50,6 @@ export class CustomWorld extends CucumberWorld {
     }
 
     this.inventoryPage = await this.loginPage.loginSuccess(username, password);
-    // const loginPage = await LoginPage.build(this.page);
-    // this.inventoryPage = await loginPage.loginSuccess(username, password);
   }
 
   // Multi-user helpers

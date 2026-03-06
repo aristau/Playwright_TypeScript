@@ -14,7 +14,7 @@
     "report": "playwright show-report reports/playwright-report",
     "codegen": "playwright codegen",
     "check:types": "tsc --noEmit",
-    "cucumber:ui": "cucumber-js --require-module ts-node/register --require features/support/world.ts --require features/steps/**/*.ts features/**/*.feature"
+    "cucumber:ui": "cucumber-js --require-module ts-node/register --require \"features/steps/**/*.ts\" --require \"features/support/**/*.ts\" \"features/**/*.feature\""
   },
   "keywords": [],
   "author": "",
