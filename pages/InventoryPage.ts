@@ -163,11 +163,16 @@ export class InventoryPage {
 
   }
 
+  
+
   //Selects a sort option in the UI and confirms products are sorted accordingly.
   async sortAndValidate<T>(option: SortOptionDefinition<T>): Promise<void> {
-
     await this.sortBy(option.value);
+    await this.validateSorting(option);
+  }
 
+  // Validates that products are correctly sorted by title or price according to the given option
+  async validateSorting<T>(option: SortOptionDefinition<T>): Promise<void> {
     const values: T[] =
       option.type === 'price'
         ? await this.getAllPrices() as T[]

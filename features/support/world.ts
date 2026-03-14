@@ -2,6 +2,8 @@ import { setWorldConstructor, World as CucumberWorld } from '@cucumber/cucumber'
 import { Browser, BrowserContext, Page, chromium } from 'playwright';
 import { LoginPage } from '../../pages/LoginPage';
 import { InventoryPage } from '../../pages/InventoryPage'
+import { SortOptionDefinition } from '../../pages/enums/SortOption';
+
 import * as dotenv from 'dotenv';
 
 dotenv.config(); //Load dotenv file so that tests can use environment variables defined there
@@ -13,6 +15,7 @@ export class CustomWorld extends CucumberWorld {
   page!: Page;
   loginPage!: LoginPage;
   inventoryPage?: InventoryPage;
+  selectedSortOption!: SortOptionDefinition<any>;
 
   static async launchBrowser() {
     if (!CustomWorld.browser) {

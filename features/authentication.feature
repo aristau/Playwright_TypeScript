@@ -1,8 +1,5 @@
 Feature: Authentication
 
-# Background:
-#     Given a user lands on the website
-
 Scenario: Login page Shows Correct Title
     Then login page shows the correct title
 
@@ -20,7 +17,7 @@ Scenario Outline: A user attempts login with invalid credentials
     Then an error message appears saying "<error_message>"
 
     Examples:
-    |username            | password             |  error_message                                                              |
+    |username            | password             | error_message                                                              |
     | INVALID_USERNAME   | STANDARD_PASSWORD    | Epic sadface: Username and password do not match any user in this service   |
     | STANDARD_USERNAME  | INVALID_PASSWORD     | Epic sadface: Username and password do not match any user in this service   |
     | EMPTY_USERNAME     | STANDARD_PASSWORD    | Epic sadface: Username is required                                          |

@@ -1,45 +1,41 @@
 Feature: Inventory
 
 Background:
-    Given user is logged in with valid credentials
+  Given user is logged in with valid credentials
 
-# Scenario: Products list is visible
-#     Then user sees the products list
-#     And each product has a title, price, and image
+Scenario: Products list is visible
+  Then user sees the products list
+  And each product has a title, price, and image
 
-# Scenario: User can add a product to the cart
-#   When user adds 1 product(s) to the cart
-#   Then the cart should contain 1 product(s)
+Scenario: User can add a product to the cart
+  When user adds 1 product(s) to the cart
+  Then the cart should contain 1 product(s)
 
-# Scenario: User can remove a product from the cart
-#   Given user has added 1 product(s) to the cart
-#   When user removes 1 product(s) from the cart
-#   Then the cart should be empty
+Scenario: User can remove a product from the cart
+  Given user has added 1 product(s) to the cart
+  When user removes 1 product(s) from the cart
+  Then the cart should be empty
 
-# Scenario: User can add multiple products to the cart
-#   When user adds 3 product(s) to the cart
-#   Then the cart should contain 3 product(s)
+Scenario: User can add multiple products to the cart
+  When user adds 3 product(s) to the cart
+  Then the cart should contain 3 product(s)
 
-# Scenario: User can remove multiple products from the cart
-#   Given user has added 3 product(s) to the cart
-#   When user removes 2 product(s) from the cart
-#   Then the cart should contain 1 product(s)
+Scenario: User can remove multiple products from the cart
+  Given user has added 3 product(s) to the cart
+  When user removes 2 product(s) from the cart
+  Then the cart should contain 1 product(s)
 
-# Scenario: User can sort products by price (low to high)
-#   When user sorts products by "Price (low to high)"
-#   Then products should be displayed in ascending price order
+Scenario Outline: User can sort products
+  When user sorts products by "<sortOption>"
+  Then products should be sorted correctly
 
-# Scenario: User can sort products by price (high to low)
-#   When user sorts products by "Price (high to low)"
-#   Then products should be displayed in descending price order
+Examples:
+  | sortOption         |
+  | PRICE_LOW_TO_HIGH  |
+  | PRICE_HIGH_TO_LOW  |
+  | NAME_A_TO_Z        |
+  | NAME_Z_TO_A        |
 
-# Scenario: User can sort products alphabetically (A to Z)
-#   When user sorts products by "Name (A to Z)"
-#   Then products should be displayed in alphabetical order
-
-# Scenario: User can sort products alphabetically (Z to A)
-#   When user sorts products by "Name (Z to A)"
-#   Then products should be displayed in reverse alphabetical order
 
 # Scenario: Cart retains items while browsing inventory
 #   Given user has added 1 product to the cart
