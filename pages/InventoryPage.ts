@@ -119,7 +119,7 @@ export class InventoryPage {
 
     if (expected === 0) {
 
-      await expect(this.header.shoppingCartBadge).toHaveCount(0);
+      await expect(this.header.shoppingCartBadge).not.toBeVisible();
 
     } else {
 
@@ -217,5 +217,22 @@ export class InventoryPage {
 
   }
 
+  // ============================================
+  // VERIFICATIONS
+  // ============================================
+  async verifyProductsHaveTitlePriceAndImage(){
+    const count = await this.getItemCount();
 
+    expect(count).toBeGreaterThan(0);
+
+    for (let i = 0; i < count; i++) {
+
+      await expect(this.getItemTitle(i)).toBeVisible();
+
+      await expect(this.getItemPrice(i)).toBeVisible();
+
+      await expect(this.getItemImage(i)).toBeVisible();
+
+    }
+  }
 }
