@@ -11,7 +11,7 @@ Then('user lands on the products page', async function (this: CustomWorld) {
 });
 
 Then('user sees the products list', async function (this: CustomWorld) {
-   await expect (this.inventoryPage!.inventoryList).toBeVisible();
+   await expect (this.inventoryPage.inventoryList).toBeVisible();
 });
 
 When('a locked out user attempts to login', async function(this: CustomWorld) {
@@ -36,7 +36,7 @@ Given('user is logged in with valid credentials', async function(this: CustomWor
 });
 
 When('user logs out', async function(this: CustomWorld){
- await this.inventoryPage!.header.logout();
+ await this.inventoryPage.header.logout();
 });
 
 Then ('user is redirected to the login page', async function(this: CustomWorld){

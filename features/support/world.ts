@@ -15,15 +15,15 @@ export class CustomWorld extends CucumberWorld {
   context!: BrowserContext;
   page!: Page;
   loginPage!: LoginPage;
-  inventoryPage?: InventoryPage;
-  productDetailPage?: ProductDetailPage;
+  inventoryPage!: InventoryPage;
+  productDetailPage!: ProductDetailPage;
   selectedSortOption!: SortOptionDefinition<any>;
 
   static async launchBrowser() {
     if (!CustomWorld.browser) {
       CustomWorld.browser = await chromium.launch({
         headless: false,
-        slowMo: 500,
+        slowMo: 300,
       });
     }
   }
