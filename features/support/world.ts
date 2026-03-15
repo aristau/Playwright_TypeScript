@@ -2,6 +2,7 @@ import { setWorldConstructor, World as CucumberWorld } from '@cucumber/cucumber'
 import { Browser, BrowserContext, Page, chromium } from 'playwright';
 import { LoginPage } from '../../pages/LoginPage';
 import { InventoryPage } from '../../pages/InventoryPage'
+import { ProductDetailPage } from '../../pages/ProductDetailPage'
 import { SortOptionDefinition } from '../../pages/enums/SortOption';
 
 import * as dotenv from 'dotenv';
@@ -15,6 +16,7 @@ export class CustomWorld extends CucumberWorld {
   page!: Page;
   loginPage!: LoginPage;
   inventoryPage?: InventoryPage;
+  productDetailPage?: ProductDetailPage;
   selectedSortOption!: SortOptionDefinition<any>;
 
   static async launchBrowser() {

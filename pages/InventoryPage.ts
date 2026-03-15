@@ -214,6 +214,22 @@ export class InventoryPage {
 
   }
 
+  async clickProductElement(element: string, index: number): Promise<ProductDetailPage> {
+
+    const actions = {
+      title: () => this.clickItemTitle(index),
+      image: () => this.clickItemImage(index),
+    };
+
+    const action = actions[element as keyof typeof actions];
+
+    if (!action) {
+      throw new Error(`Unknown element type: ${element}`);
+    }
+
+    return action();
+  }
+
   async goBackToInventory(): Promise<InventoryPage> {
 
     await this.page.locator('#back-to-products').click();

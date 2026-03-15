@@ -37,17 +37,17 @@ Examples:
   | NAME_Z_TO_A        |
 
 
-# Scenario: Cart retains items while browsing inventory
-#   Given user has added 1 product to the cart
-#   When user navigates through the inventory
-#   Then the cart should contain 1 product
+Scenario: Cart retains items while browsing inventory
+  Given user has added 1 product(s) to the cart
+  When user navigates through the inventory
+  Then the cart should contain 1 product(s)
 
-# Scenario Outline: User can view product detail page by clicking an element
-#   When user clicks the "<element>" of a product
-#   Then the product detail page shows a title, description, price, and image
-#   And user can navigate back to inventory
+Scenario Outline: User can view product detail page by clicking an element
+  When user clicks the "<element>" of product 1
+  Then the product detail page shows a title, description, price, and image
+  And user can navigate back to inventory
 
-# Examples:
-#   | element       |
-#   | title         |
-#   | image         |
+Examples:
+  | element       |
+  | title         |
+  | image         |
