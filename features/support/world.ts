@@ -3,6 +3,8 @@ import { Browser, BrowserContext, Page, chromium } from 'playwright';
 import { LoginPage } from '../../pages/LoginPage';
 import { InventoryPage } from '../../pages/InventoryPage'
 import { ProductDetailPage } from '../../pages/ProductDetailPage'
+import { CartPage } from '../../pages/CartPage'
+import { CheckoutInformationPage } from '../../pages/CheckoutInformationPage'
 import { SortOptionDefinition } from '../../pages/enums/SortOption';
 
 import * as dotenv from 'dotenv';
@@ -17,13 +19,15 @@ export class CustomWorld extends CucumberWorld {
   loginPage!: LoginPage;
   inventoryPage!: InventoryPage;
   productDetailPage!: ProductDetailPage;
+  cartPage!: CartPage;
+  checkoutInformationPage!: CheckoutInformationPage;
   selectedSortOption!: SortOptionDefinition<any>;
 
   static async launchBrowser() {
     if (!CustomWorld.browser) {
       CustomWorld.browser = await chromium.launch({
         headless: false,
-        slowMo: 300,
+        slowMo: 500,
       });
     }
   }
