@@ -101,8 +101,18 @@ export class CheckoutInformationPage {
     await this.continueButton.click();
 
     return new CheckoutOverviewPage(this.page);
-
   }
+
+//   async continueToOverview(): Promise<CheckoutOverviewPage> {
+
+//   await this.continueButton.click();
+
+// await this.page.waitForURL('**/checkout-step-two.html');
+
+//   console.log('Reached overview page');
+
+//   return new CheckoutOverviewPage(this.page);
+// }
 
   async clickCancel(): Promise<CartPage> {
 
@@ -111,4 +121,5 @@ export class CheckoutInformationPage {
     return new CartPage(this.page);
 
   }
-}
+
+ }

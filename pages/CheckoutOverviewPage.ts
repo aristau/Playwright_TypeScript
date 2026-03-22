@@ -12,7 +12,6 @@ export class CheckoutOverviewPage {
     this.page = page;
   }
 
-
   // ---------------------------
   // Locators using getter pattern
   // ---------------------------

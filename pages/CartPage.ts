@@ -27,6 +27,14 @@ export class CartPage {
     return this.cartItems;
   }
 
+  get checkoutBtn(): Locator {
+    return this.page.locator('[data-test="checkout"]');
+  }
+
+  get continueShoppingBtn(): Locator {
+    return this.page.locator('[data-test="continue-shopping"]');
+  }
+
   // --------------------------------
   // Actions
   // --------------------------------
@@ -67,12 +75,12 @@ async expectCartBadgeCount(expectedCount: number): Promise<void> {
   }
 
   async clickCheckout() {
-    await this.page.locator('[data-test="checkout"]').click();
+    await this.checkoutBtn.click();
     return new CheckoutInformationPage(this.page);
   }
 
   async clickContinueShopping() {
-    await this.page.locator('[data-test="continue-shopping"]').click();
+    await this.continueShoppingBtn.click();
     return new InventoryPage(this.page);
   }
 }
