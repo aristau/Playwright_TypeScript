@@ -65,6 +65,22 @@ Then('the checkout totals should be correct', async function (this: CustomWorld)
     await this.checkoutOverviewPage.assertCheckoutTotals();
 });
 
+When('user completes checkout', async function (this: CustomWorld) {
+    this.checkoutCompletePage = await this.checkoutOverviewPage.clickFinishBtn();
+});
+
+Then("the checkout is successful", async function (this: CustomWorld) {
+  await expect (this.page).toHaveURL(/checkout-complete.html/);
+});
+
+Then("a confirmation message is displayed", async function (this: CustomWorld) {
+  await this.checkoutCompletePage.expectPageLoaded();
+});
+
+When('user navigates back to products', async function (this: CustomWorld) {
+    await this.checkoutCompletePage.clickBackHome();
+});
+
 
 
 

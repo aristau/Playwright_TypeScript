@@ -6,6 +6,7 @@ import { ProductDetailPage } from '../../pages/ProductDetailPage'
 import { CartPage } from '../../pages/CartPage'
 import { CheckoutInformationPage } from '../../pages/CheckoutInformationPage'
 import { CheckoutOverviewPage } from '../../pages/CheckoutOverviewPage'
+import { CheckoutCompletePage } from '../../pages/CheckoutCompletePage'
 import { SortOptionDefinition } from '../../pages/enums/SortOption';
 
 import * as dotenv from 'dotenv';
@@ -23,13 +24,14 @@ export class CustomWorld extends CucumberWorld {
   cartPage!: CartPage;
   checkoutInformationPage!: CheckoutInformationPage;
   checkoutOverviewPage!: CheckoutOverviewPage;
+  checkoutCompletePage!: CheckoutCompletePage;
   selectedSortOption!: SortOptionDefinition<any>;
 
   static async launchBrowser() {
     if (!CustomWorld.browser) {
       CustomWorld.browser = await chromium.launch({
-        headless: false,
-        slowMo: 300,
+        headless: true//,
+        //slowMo: 300,
       });
     }
   }

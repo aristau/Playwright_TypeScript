@@ -34,7 +34,7 @@ Scenario: User can cancel checkout
   When user cancels checkout
   Then user is returned to the cart page
 
-  Scenario: User can navigate back from checkout overview
+Scenario: User can navigate back from checkout overview
   Given user has added 1 product(s) to the cart
   When user navigates to the checkout information page
   And user enters valid checkout information
@@ -43,7 +43,7 @@ Scenario: User can cancel checkout
   When user navigates back
   Then user is redirected to the checkout information page
 
-  Scenario: Checkout overview displays selected products
+Scenario: Checkout overview displays selected products
   Given user has added 2 product(s) to the cart
   And user navigates to the checkout information page
   And user enters valid checkout information
@@ -52,7 +52,7 @@ Scenario: User can cancel checkout
   And the checkout overview shows 2 product(s)
   And each product shows a title, price, and quantity
 
-  Scenario: Checkout overview shows correct totals
+Scenario: Checkout overview shows correct totals
   Given user has added 2 product(s) to the cart
   And user navigates to the checkout information page
   And user enters valid checkout information
@@ -60,15 +60,23 @@ Scenario: User can cancel checkout
   Then user is on the checkout overview page
   And the checkout totals should be correct
 
-#   Scenario: User can complete checkout
-#   Given user has added 1 product(s) to the cart
-#   And user is on the checkout overview page
-#   When user completes checkout
-#   Then the checkout is successful
-#   And a confirmation message is displayed
+Scenario: User can complete checkout
+  Given user has added 1 product(s) to the cart
+  And user navigates to the checkout information page
+  And user enters valid checkout information
+  And user continues checkout
+  And user is on the checkout overview page
+  When user completes checkout
+  Then the checkout is successful
+  And a confirmation message is displayed
 
-#   Scenario: User can return to inventory after checkout
-#   Given user has completed checkout
-#   When user navigates back to products
-#   Then user lands on the products page
-#   And the cart should be empty
+Scenario: User can return to inventory after checkout
+  Given user has added 1 product(s) to the cart
+  And user navigates to the checkout information page
+  And user enters valid checkout information
+  And user continues checkout
+  And user is on the checkout overview page
+  And user completes checkout
+  When user navigates back to products
+  Then user lands on the products page
+  And the cart should be empty
