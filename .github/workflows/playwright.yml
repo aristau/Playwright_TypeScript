@@ -18,42 +18,43 @@ env:
   EMPTY_PASSWORD: ""
 
 jobs:
-  # test:
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: mcr.microsoft.com/playwright:v1.58.2-noble
-  #     options: --user 1001
-  #   strategy:
-  #     matrix:
-  #       browser: [chromium, firefox, webkit]
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+      options: --user 1001
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
 
-  #   steps:
-  #     # Checkout code
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v3
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-  #     # Install dependencies
-  #     - name: Install dependencies
-  #       run: npm ci
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
 
-  #     # TypeScript type check
-  #     - name: Type check
-  #       run: npm run check:types
+      # TypeScript type check
+      - name: Type check
+        run: npm run check:types
 
-  #     # Run all Playwright tests
-  #     - name: Run Playwright Tests
-  #       run: |
-  #         npx playwright test \
-  #           --project ${{ matrix.browser }} \
-  #           --timeout=30000 \
-  #           --retries=1
+      # Run all Playwright tests
+      - name: Run Playwright Tests
+        run: |
+          npx playwright test \
+            --project ${{ matrix.browser }} \
+            --timeout=30000 \
+            --retries=1
 
-  #     # Upload test report as an artifact
-  #     - name: Upload Playwright Report
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: playwright-report-${{matrix.browser}}
-  #         path: reports/playwright-report
+      # Upload test report as an artifact
+      - name: Upload Playwright Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{matrix.browser}}
+          path: reports/playwright-report
     
   cucumber:
     runs-on: ubuntu-latest
@@ -80,14 +81,14 @@ jobs:
 
       # Upload Cucumber report
       - name: Upload Cucumber Report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
           path: reports/
 
   deploy:
-   # needs: test
-    needs: cucumber
+    needs: [test, cucumber]
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -98,25 +99,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-  #     #Download Playwright reports
-  #     - name: Download Chromium report
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: playwright-report-chromium
-  #         path: site/chromium
+      #Download Playwright reports
+      - name: Download Chromium report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-chromium
+          path: site/chromium
 
-  #     - name: Download Firefox report
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: playwright-report-firefox
-  #         path: site/firefox
+      - name: Download Firefox report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-firefox
+          path: site/firefox
 
-  #     - name: Download Webkit report
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: playwright-report-webkit
-  #         path: site/webkit
+      - name: Download Webkit report
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-webkit
+          path: site/webkit
 
+      #Download Cucumber report
       - name: Download Cucumber report
         uses: actions/download-artifact@v4
         with:
