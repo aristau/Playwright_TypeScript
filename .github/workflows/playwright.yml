@@ -7,14 +7,48 @@ on:
     branches: [main, add-cucumber]
 
 jobs:
-  test:
+  # test:
+  #   runs-on: ubuntu-latest
+  #   container:
+  #     image: mcr.microsoft.com/playwright:v1.58.2-noble
+  #     options: --user 1001
+  #   strategy:
+  #     matrix:
+  #       browser: [chromium, firefox, webkit]
+
+  #   steps:
+  #     # Checkout code
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+
+  #     # Install dependencies
+  #     - name: Install dependencies
+  #       run: npm ci
+
+  #     # TypeScript type check
+  #     - name: Type check
+  #       run: npm run check:types
+
+  #     # Run all Playwright tests
+  #     - name: Run Playwright Tests
+  #       run: |
+  #         npx playwright test \
+  #           --project ${{ matrix.browser }} \
+  #           --timeout=30000 \
+  #           --retries=1
+
+  #     # Upload test report as an artifact
+  #     - name: Upload Playwright Report
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: playwright-report-${{matrix.browser}}
+  #         path: reports/playwright-report
+    
+  cucumber:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.58.2-noble
       options: --user 1001
-    strategy:
-      matrix:
-        browser: [chromium, firefox, webkit]
 
     steps:
       # Checkout code
@@ -29,66 +63,62 @@ jobs:
       - name: Type check
         run: npm run check:types
 
-      # Run all Playwright tests
-      - name: Run Playwright Tests
-        run: |
-          npx playwright test \
-            --project ${{ matrix.browser }} \
-            --timeout=30000 \
-            --retries=1
+      # Run Cucumber tests
+      - name: Run Cucumber Tests
+        run: npm run cucumber-all
 
-      # Upload test report as an artifact
-      - name: Upload Playwright Report
+      # Upload Cucumber report (if you generate one)
+      - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{matrix.browser}}
-          path: reports/playwright-report
+          name: cucumber-report
+          path: reports/
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     pages: write
+  #     id-token: write
 
-    steps:
-      # Checkout code
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     # Checkout code
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      #Download reports
-      - name: Download Chromium report
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-chromium
-          path: site/chromium
+  #     #Download reports
+  #     - name: Download Chromium report
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: playwright-report-chromium
+  #         path: site/chromium
 
-      - name: Download Firefox report
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-firefox
-          path: site/firefox
+  #     - name: Download Firefox report
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: playwright-report-firefox
+  #         path: site/firefox
 
-      - name: Download Webkit report
-        uses: actions/download-artifact@v4
-        with:
-          name: playwright-report-webkit
-          path: site/webkit
+  #     - name: Download Webkit report
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: playwright-report-webkit
+  #         path: site/webkit
 
-      # Copy static index.html for GitHub Pages
-      - name: Copy index page
-        run: cp gh-pages/index.html site/index.html
+  #     # Copy static index.html for GitHub Pages
+  #     - name: Copy index page
+  #       run: cp gh-pages/index.html site/index.html
 
-      # Write to GitHub Pages using index.html and downloaded reports
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+  #     # Write to GitHub Pages using index.html and downloaded reports
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v4
 
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
+  #     - name: Upload Pages Artifact
+  #       uses: actions/upload-pages-artifact@v3
+  #       with:
+  #         path: site
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+  #     - name: Deploy to GitHub Pages
+  #       uses: actions/deploy-pages@v4
 
   
