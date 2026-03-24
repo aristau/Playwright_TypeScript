@@ -94,9 +94,9 @@ jobs:
       id-token: write
 
     steps:
-  #     # Checkout code
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
   #     #Download Playwright reports
   #     - name: Download Chromium report
