@@ -6,6 +6,17 @@ on:
   pull_request:
     branches: [main, add-cucumber]
 
+env:
+  STANDARD_USERNAME: ${{ secrets.STANDARD_USERNAME }}
+  STANDARD_PASSWORD: ${{ secrets.STANDARD_PASSWORD }}
+  PROBLEM_USERNAME: ${{ secrets.PROBLEM_USERNAME }}
+  PERFORM_GLITCH_USERNAME: ${{ secrets.PERFORM_GLITCH_USERNAME }}
+  LOCKED_OUT_USERNAME: ${{ secrets.LOCKED_OUT_USERNAME }}
+  INVALID_PASSWORD: ${{ secrets.INVALID_PASSWORD }}
+  INVALID_USERNAME: ${{ secrets.INVALID_USERNAME }}
+  EMPTY_USERNAME: ""
+  EMPTY_PASSWORD: ""
+
 jobs:
   # test:
   #   runs-on: ubuntu-latest
