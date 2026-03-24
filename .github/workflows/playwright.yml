@@ -78,26 +78,27 @@ jobs:
       - name: Run Cucumber Tests
         run: npm run cucumber-all
 
-      # Upload Cucumber report (if you generate one)
+      # Upload Cucumber report
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
           path: reports/
 
-  # deploy:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     pages: write
-  #     id-token: write
+  deploy:
+   # needs: test
+    needs: cucumber
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
 
-  #   steps:
+    steps:
   #     # Checkout code
   #     - name: Checkout repository
   #       uses: actions/checkout@v4
 
-  #     #Download reports
+  #     #Download Playwright reports
   #     - name: Download Chromium report
   #       uses: actions/download-artifact@v4
   #       with:
@@ -115,6 +116,12 @@ jobs:
   #       with:
   #         name: playwright-report-webkit
   #         path: site/webkit
+
+        - name: Download Cucumber report
+          uses: actions/download-artifact@v4
+          with:
+            name: cucumber-report
+            path: site/cucumber
 
   #     # Copy static index.html for GitHub Pages
   #     - name: Copy index page
