@@ -123,20 +123,20 @@ jobs:
             name: cucumber-report
             path: site/cucumber
 
-  #     # Copy static index.html for GitHub Pages
-  #     - name: Copy index page
-  #       run: cp gh-pages/index.html site/index.html
+        # Copy static index.html for GitHub Pages
+        - name: Copy index page
+          run: cp gh-pages/index.html site/index.html
 
-  #     # Write to GitHub Pages using index.html and downloaded reports
-  #     - name: Setup Pages
-  #       uses: actions/configure-pages@v4
+        # Write to GitHub Pages using index.html and downloaded reports
+        - name: Setup Pages
+          uses: actions/configure-pages@v4
 
-  #     - name: Upload Pages Artifact
-  #       uses: actions/upload-pages-artifact@v3
-  #       with:
-  #         path: site
+        - name: Upload Pages Artifact
+          uses: actions/upload-pages-artifact@v3
+          with:
+            path: site
 
-  #     - name: Deploy to GitHub Pages
-  #       uses: actions/deploy-pages@v4
+        - name: Deploy to GitHub Pages
+          uses: actions/deploy-pages@v4
 
   
