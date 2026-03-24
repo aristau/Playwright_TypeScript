@@ -2,13 +2,9 @@ name: Playwright Tests
 
 on:
   push:
-    branches: 
-      - [main]
-      - [add-cucumber]
+    branches: [main, add-cucumber]
   pull_request:
-    branches: 
-      - [main]
-      - [add-cucumber]
+    branches: [main, add-cucumber]
 
 jobs:
   test:
