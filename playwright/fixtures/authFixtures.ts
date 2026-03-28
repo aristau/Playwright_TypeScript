@@ -3,6 +3,9 @@ import { LoginPage } from '../../pages/LoginPage';
 import { InventoryPage } from '../../pages/InventoryPage';
 import loginScenarios from './loginScenarios.json';
 
+import * as dotenv from 'dotenv';
+dotenv.config(); //Load dotenv file so that tests can use environment variables defined there
+
 // Helper to get user from JSON
 function getUser(username: string) {
   const user = loginScenarios.find(u => u.username === username);
@@ -15,7 +18,7 @@ function makeAuthenticatedFixture(username: string) {
   return async ({ page }: { page: Page }, use: (inv: InventoryPage) => Promise<void>) => {
     const user = getUser(username);
     const loginPage = await LoginPage.build(page);
-    const inventoryPage = await loginPage.loginSuccess(user.username, user.password);
+    const inventoryPage = await loginPage.loginSuccess(user.username, process.env[user.password]!);
     await use(inventoryPage);
   };
 }

@@ -19,7 +19,7 @@ test.describe('Authentication', () => {
 
         if (scenario.shouldSucceed) {
           await test.step(`Login with username: ${scenario.username}`, async () => {
-            await loginPage.loginSuccess(scenario.username, scenario.password);
+            await loginPage.loginSuccess(scenario.username, process.env[scenario.password]!);
           });
 
           await test.step('Verify redirection to inventory page', async () => {
@@ -31,7 +31,7 @@ test.describe('Authentication', () => {
           const failedLoginPage = await test.step(
             `Attempt invalid login with username: ${scenario.username}`,
             async () => {
-              return await loginPage.loginFailure(scenario.username, scenario.password);
+              return await loginPage.loginFailure(scenario.username, process.env[scenario.password]!);
             }
           );
 

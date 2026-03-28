@@ -2,63 +2,63 @@
   {
     "name": "Valid login",
     "username": "standard_user",
-    "password": "secret_sauce",
+    "password": "STANDARD_PASSWORD",
     "shouldSucceed": true,
     "expectedError": ""
   },
   {
     "name": "Invalid username",
     "username": "wrong_user",
-    "password": "secret_sauce",
+    "password": "STANDARD_PASSWORD",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Username and password do not match any user in this service"
   },
   {
     "name": "Invalid password",
     "username": "standard_user",
-    "password": "wrong_pass",
+    "password": "INVALID_PASSWORD",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Username and password do not match any user in this service"
   },
   {
     "name": "Empty username",
     "username": "",
-    "password": "secret_sauce",
+    "password": "STANDARD_PASSWORD",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Username is required"
   },
   {
     "name": "Empty password",
-    "username": "standard_use",
-    "password": "",
+    "username": "standard_user",
+    "password": "EMPTY_PASSWORD",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Password is required"
   },
   {
     "name": "Empty username and password",
     "username": "",
-    "password": "",
+    "password": "EMPTY_PASSWORD",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Username is required"
   },
    {
     "name": "Locked out user",
     "username": "locked_out_user",
-    "password": "secret_sauce",
+    "password": "STANDARD_PASSWORD",
     "shouldSucceed": false,
     "expectedError": "Epic sadface: Sorry, this user has been locked out."
   },
   {
     "name": "Problem user",
     "username": "problem_user",
-    "password": "secret_sauce",
+    "password": "STANDARD_PASSWORD",
     "shouldSucceed": true,
     "expectedError": ""
   },
   {
     "name": "Performance glitch user",
     "username": "performance_glitch_user",
-    "password": "secret_sauce",
+    "password": "STANDARD_PASSWORD",
     "shouldSucceed": true,
     "expectedError": ""
   }
